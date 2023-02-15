@@ -30,13 +30,6 @@ export const getUsuario = async ( req: Request, res: Response) => {
 
 export const postUsuario = async( req: Request, res: Response) => {
 
-    // para hacer las verificaciones de usuario,email y password manejar en frontend , para que no deje que envie si no tiene los campos llenos
-
-    // ya se configuro desde sql evitar duplicados de email y usuarios , --HECHO 
-    // necesito hacer validaciones desde sql para que no se envie si no tiene los campos requeridos  , not null  -- HECHO
-
-    // puede tener problemas con el login y put, al enviar datos de un usuario duplicado en la DB
-
     const { body } = req;
 
     try {
@@ -55,13 +48,13 @@ export const postUsuario = async( req: Request, res: Response) => {
 
         const existeUsuario = await Usuario.findOne({
             where: {
-                nombre: body.nombre
+                name: body.name
             }
         });
 
         if (existeUsuario) {
             return res.status(400).json({
-                msg: 'Ya existe un usuario con el user ' + body.nombre
+                msg: 'Ya existe un usuario con el user ' + body.name
             });
         }
 
@@ -129,9 +122,9 @@ export const deleteUsuario = async ( req: Request, res: Response) => {
         });
     }
 
-    await usuario.update({ estado: 0 });  //eliminacion logica, pasar el estado del usuario a 0 
+    //await usuario.update({ estado: 0 });  //eliminacion logica, pasar el estado del usuario a 0 
 
-    // await usuario.destroy(); 
+    await usuario.destroy(); 
     //  eliminacion fisica, dejando registros huerfanos , constrains
 
     res.json(usuario);

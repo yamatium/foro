@@ -15,19 +15,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const usuario_1 = __importDefault(require("../routes/usuario")); //  ver video 256 de rutas , para al poner mas funciones crud como ponerlas( crud de usurarios, de publicaciones y reviews y de listado de juegos)
+const roles_1 = __importDefault(require("../routes/roles"));
 const connection_1 = __importDefault(require("../db/connection"));
 class Server {
     constructor() {
         this.apiPaths = {
-            usuarios: '/api/usuarios' //definir el endpoint a llamar en postman con el crud localhost:8000/api/usuarios/ 
+            usuarios: '/api/usuarios',
+            roles: '/api/roles',
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '8000';
+        // en el constructor llamas a las funciones que estan definidas abajo
         // Metodos iniciales  , se llaman en el constructor para usarlos , sino solo estan definidos y no usados
         this.dbConnection();
         // usar el body en las rutas
         this.middlewares();
-        // Definir mis rutas
+        // Definir mis rutas,  video 256
         this.routes();
     }
     dbConnection() {
@@ -42,15 +45,15 @@ class Server {
         });
     }
     middlewares() {
+        // funciones que se ejecutan antes que se ejecuten las rutas
         // CORS
         this.app.use((0, cors_1.default)());
         // Lectura del body
         this.app.use(express_1.default.json());
-        // Carpeta publica
-        this.app.use(express_1.default.static('public'));
     }
     routes() {
         this.app.use(this.apiPaths.usuarios, usuario_1.default);
+        this.app.use(this.apiPaths.roles, roles_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {
