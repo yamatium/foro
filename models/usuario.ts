@@ -2,8 +2,9 @@ import { DataTypes} from 'sequelize';
 import db from '../db/connection';
 
 
-const Usuario = db.define('Usuario', {
-    nombre: {
+
+const Usuario = db.define('users', {
+    name: {
         type: DataTypes.STRING
     },
     email: {
@@ -12,14 +13,10 @@ const Usuario = db.define('Usuario', {
     password: {
         type: DataTypes.STRING
     },
-    estado: {
-        type: DataTypes.BOOLEAN
-    }
     
-}, {
-    timestamps: false
-});
+}, { timestamps: false });
 
-// modelo definido para los endpoints ,  arma los sqlQuery   , video 261
+
+
 
 export default Usuario;

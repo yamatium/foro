@@ -14,20 +14,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const usuario_1 = __importDefault(require("../routes/usuario")); //  ver video 256 de rutas , para al poner mas funciones crud como ponerlas( crud de usurarios, de publicaciones y reviews y de listado de juegos)
+const usuario_1 = __importDefault(require("../routes/usuario"));
+const roles_1 = __importDefault(require("../routes/roles"));
+const posts_1 = __importDefault(require("../routes/posts"));
+const comments_1 = __importDefault(require("../routes/comments"));
+const likes_1 = __importDefault(require("../routes/likes"));
+const reviews_1 = __importDefault(require("../routes/reviews"));
+const games_1 = __importDefault(require("../routes/games"));
+const images_1 = __importDefault(require("../routes/images"));
 const connection_1 = __importDefault(require("../db/connection"));
 class Server {
     constructor() {
         this.apiPaths = {
-            usuarios: '/api/usuarios' //definir el endpoint a llamar en postman con el crud localhost:8000/api/usuarios/ 
+            usuarios: '/api/usuarios',
+            roles: '/api/roles',
+            post: '/api/posts',
+            comments: '/api/comments',
+            likes: '/api/likes',
+            reviews: '/api/reviews',
+            games: '/api/games',
+            images: '/api/images'
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '8000';
-        // Metodos iniciales  , se llaman en el constructor para usarlos , sino solo estan definidos y no usados
         this.dbConnection();
-        // usar el body en las rutas
         this.middlewares();
-        // Definir mis rutas
         this.routes();
     }
     dbConnection() {
@@ -46,11 +57,16 @@ class Server {
         this.app.use((0, cors_1.default)());
         // Lectura del body
         this.app.use(express_1.default.json());
-        // Carpeta publica
-        this.app.use(express_1.default.static('public'));
     }
     routes() {
         this.app.use(this.apiPaths.usuarios, usuario_1.default);
+        this.app.use(this.apiPaths.roles, roles_1.default);
+        this.app.use(this.apiPaths.post, posts_1.default);
+        this.app.use(this.apiPaths.comments, comments_1.default);
+        this.app.use(this.apiPaths.likes, likes_1.default);
+        this.app.use(this.apiPaths.reviews, reviews_1.default);
+        this.app.use(this.apiPaths.games, games_1.default);
+        this.app.use(this.apiPaths.images, images_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {

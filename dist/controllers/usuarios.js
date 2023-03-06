@@ -34,10 +34,6 @@ const getUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.getUsuario = getUsuario;
 const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // para hacer las verificaciones de usuario,email y password manejar en frontend , para que no deje que envie si no tiene los campos llenos
-    // ya se configuro desde sql evitar duplicados de email y usuarios , --HECHO 
-    // necesito hacer validaciones desde sql para que no se envie si no tiene los campos requeridos  , not null  -- HECHO
-    // puede tener problemas con el login y put, al enviar datos de un usuario duplicado en la DB
     const { body } = req;
     try {
         const existeEmail = yield usuario_1.default.findOne({
@@ -52,12 +48,12 @@ const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         }
         const existeUsuario = yield usuario_1.default.findOne({
             where: {
-                nombre: body.nombre
+                name: body.name
             }
         });
         if (existeUsuario) {
             return res.status(400).json({
-                msg: 'Ya existe un usuario con el user ' + body.nombre
+                msg: 'Ya existe un usuario con el user ' + body.name
             });
         }
         const usuario = yield usuario_1.default.create(body);
@@ -107,8 +103,8 @@ const deleteUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             msg: 'No existe un usuario con el id ' + id
         });
     }
-    yield usuario.update({ estado: 0 }); //eliminacion logica, pasar el estado del usuario a 0 
-    // await usuario.destroy(); 
+    //await usuario.update({ estado: 0 });  //eliminacion logica, pasar el estado del usuario a 0 
+    yield usuario.destroy();
     //  eliminacion fisica, dejando registros huerfanos , constrains
     res.json(usuario);
 });
