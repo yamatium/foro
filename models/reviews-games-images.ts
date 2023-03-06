@@ -21,7 +21,7 @@ const Games = db.define('games', {
 
 
 const Reviews = db.define('reviews', {
-    user_id: {
+    userReview_id: {
         type: DataTypes.INTEGER
     },
     g_id: {
@@ -37,8 +37,10 @@ const Reviews = db.define('reviews', {
     timestamps: false
 });
 
-Usuario.belongsToMany(Reviews, { as: 'usuario_id', through: { model: Reviews}, foreignKey: 'user_id' });
+//Usuario.belongsToMany(Reviews, {  as: 'usuarioReview_id', through: { model: Reviews}, foreignKey: 'userReview_id' });
+Usuario.hasMany ( Reviews, { as: 'userReview_id'});
 Games.belongsToMany(Usuario, { as: 'game_id', through: { model: Reviews}, foreignKey: 'g_id' });
+
 
 
 
@@ -50,7 +52,7 @@ const Images = db.define('images', {
     userI_id: {
         type: DataTypes.INTEGER
     },
-    game_id: {
+    games_id: {
         type: DataTypes.INTEGER
     },
     postI_id: {
@@ -61,8 +63,8 @@ const Images = db.define('images', {
 });
 
 Usuario.hasMany ( Images, { as: 'userI_id' } );
-Games.hasMany   ( Images, { as: 'game_id'  } );
-Posts.hasMany   ( Images, { as: 'postI_id'}  );
+Games.hasMany   ( Images, { as: 'games_id'  } );
+//Posts.hasMany   ( Images, { as: 'postI_id'}  );
 
 
 

@@ -20,8 +20,8 @@ const Posts = connection_1.default.define('posts', {
 }, {
     timestamps: false
 });
-usuario_1.default.hasMany(Posts, { as: 'user_id' });
-//Posts.belongsTo(Usuario);
+usuario_1.default.hasMany(Posts, { as: "userPost_id", foreignKey: "user_id", });
+//Posts.belongsTo(Usuario); // error foreing key userId ,leer documentacion belongsTo
 const Comments = connection_1.default.define('comments', {
     body: {
         type: sequelize_1.DataTypes.STRING
@@ -41,7 +41,6 @@ const Comments = connection_1.default.define('comments', {
 usuario_1.default.hasMany(Comments, { as: 'u_id' });
 Posts.hasMany(Comments, { as: 'post_id' });
 reviews_games_images_1.default.hasMany(Comments, { as: 'review_id' });
-// falta review
 //Comments.hasOne( Usuario);
 const Likes = connection_1.default.define('likes', {
     value: {

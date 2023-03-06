@@ -20,8 +20,8 @@ const Posts = db.define('posts', {
 });
 
 
-Usuario.hasMany(Posts, { as: 'user_id' } );
-//Posts.belongsTo(Usuario);
+Usuario.hasMany(Posts, { as: "userPost_id" , foreignKey:"user_id" , });       
+//Posts.belongsTo(Usuario); // error foreing key userId ,leer documentacion belongsTo
 
 
 const Comments = db.define('comments', {
@@ -44,7 +44,6 @@ const Comments = db.define('comments', {
 Usuario.hasMany(Comments, { as: 'u_id'     } );
 Posts.hasMany(Comments,   { as: 'post_id'  } );
 Reviews.hasMany(Comments, { as: 'review_id'} );
-// falta review
 //Comments.hasOne( Usuario);
 
 
